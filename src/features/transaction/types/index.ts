@@ -25,7 +25,6 @@ export type Sale = {
 } & BaseEntity;
 
 export type SaleRequest = {
-  customer_id: number;
   customer: string;
   note: string;
   source: 'outlet' | 'warehouse';
@@ -57,9 +56,6 @@ export type PurchaseItem = {
 export type Purchase = {
   code: string;
   note: string;
-  supplier: string;
-  sales_id: number;
-  sales_code: string;
   total: number;
   items: PurchaseItem[];
   status: TransactionStatus;
@@ -72,10 +68,6 @@ export type PurchaseRequest = {
   source: 'outlet' | 'warehouse';
   sourceId: number;
   date: Date;
-  supplier_id: number;
-  supplier: string;
-  sales_id: number;
-  sales_code: string;
   items: Array<{
     price?: number;
     quantity: number;
@@ -85,6 +77,48 @@ export type PurchaseRequest = {
 };
 
 export type PurchaseQuery = {
+  outlet?: number | string;
+  startDate?: Date;
+  endDate?: Date;
+  status?: TransactionStatus[];
+} & Pagination;
+
+
+export type ExpenseItem = {
+  id: number;
+  price: number;
+  quantity: number;
+  total: number;
+  type: 'stock' | 'disposable';
+  product: Product;
+};
+
+export type Expense = {
+  code: string;
+  note: string;
+  total: number;
+  items: PurchaseItem[];
+  status: TransactionStatus;
+  user: User;
+  date: Date;
+} & BaseEntity;
+
+export type ExpenseRequest = {
+  note: string;
+  source: 'outlet' | 'warehouse';
+  sourceId: number;
+  date: Date;
+  accountCategory: string;
+  employee_id: number;
+  items: Array<{
+    price?: number;
+    quantity: number;
+    product: number;
+    type: 'stock' | 'disposable';
+  }>;
+};
+
+export type ExpenseQuery = {
   outlet?: number | string;
   startDate?: Date;
   endDate?: Date;
@@ -115,6 +149,89 @@ export type PurchasesSummary = {
 };
 
 export type PurchasesSummaryQuery = {
+  status?: TransactionStatus[];
+  outlet?: number | string;
+  startDate?: Date;
+  endDate?: Date;
+};
+
+export type ExpensesSummary = {
+  id: number;
+  date: string;
+  name: string;
+  quantity: number;
+  total: number;
+};
+
+export type ExpensesSummaryEach = {
+  id: number;
+  date: string;
+  note: string;
+  name: string;
+  quantity: number;
+  total: number;
+};
+
+export type ExpensesSummaryQuery = {
+  status?: TransactionStatus[];
+  outlet?: number | string;
+  startDate?: Date;
+  endDate?: Date;
+};
+
+
+
+
+export type AdjustmentItem = {
+  id: number;
+  price: number;
+  quantity: number;
+  total: number;
+  type: 'stock' | 'disposable';
+  product: Product;
+};
+
+export type Adjustment = {
+  code: string;
+  note: string;
+  total: number;
+  category?: string;
+  items: AdjustmentItem[];
+  status: TransactionStatus;
+  user: User;
+  date: Date;
+} & BaseEntity;
+
+export type AdjustmentRequest = {
+  note: string;
+  source: 'outlet' | 'warehouse';
+  sourceId: number;
+  date: Date;
+  category: string;
+  items: Array<{
+    price?: number;
+    quantity: number;
+    product: number;
+    type: 'stock' | 'disposable';
+  }>;
+};
+
+export type AdjustmentQuery = {
+  outlet?: number | string;
+  startDate?: Date;
+  endDate?: Date;
+  status?: TransactionStatus[];
+} & Pagination;
+
+export type AdjustmentsSummary = {
+  id: number;
+  date: string;
+  name: string;
+  quantity: number;
+  total: number;
+};
+
+export type AdjustmentsSummaryQuery = {
   status?: TransactionStatus[];
   outlet?: number | string;
   startDate?: Date;
